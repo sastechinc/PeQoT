@@ -1,0 +1,6 @@
+{
+  "name": "PeQoT — International Dating Platform",
+  "description": "Where Hearts Meet, Beyond Borders. PeQoT is a premium international dating platform connecting singles across Liberia, Africa, Europe, Asia, the Americas, and Oceania with authentic profiles, verified safety, and real-time messaging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

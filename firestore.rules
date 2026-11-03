@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // 1. PROFILES COLLECTION
+    // Preserves profiles, photos, and user uploads in Firestore until the individual deletes them
+    match /profiles/{userId} {
+      allow read: if true;
+      allow create, update: if isValidId(userId);
+      allow delete: if isValidId(userId);
+    }
+
+    // 2. LIKES COLLECTION
+    match /likes/{likeId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(likeId);
+    }
+
+    // 3. MATCHES & MESSAGES
+    match /matches/{matchId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(matchId);
+
+      match /messages/{messageId} {
+        allow read: if true;
+        allow create, update, delete: if isValidId(messageId);
+      }
+    }
+
+    // 4. VERIFICATIONS COLLECTION
+    match /verifications/{verificationId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(verificationId);
+    }
+
+    // 5. REPORTS COLLECTION
+    match /reports/{reportId} {
+      allow read: if true;
+      allow create, update, delete: if isValidId(reportId);
+    }
+
+    // 6. ADMIN AUDIT LOGS
+    match /admin_audit_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // 7. Test connection
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

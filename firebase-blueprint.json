@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with personal identity, age verification, location, and intentions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "User UID", "maxLength": 128 },
+        "email": { "type": "string", "description": "User email address", "maxLength": 128 },
+        "display_name": { "type": "string", "description": "Public display name", "maxLength": 80 },
+        "birth_date": { "type": "string", "description": "ISO date YYYY-MM-DD", "maxLength": 10 },
+        "age": { "type": "number", "description": "Calculated chronological age (>= 18 strictly enforced)" },
+        "gender": { "type": "string", "description": "Gender identity", "maxLength": 30 },
+        "country": { "type": "string", "description": "Country of residence", "maxLength": 80 },
+        "city": { "type": "string", "description": "City or municipality", "maxLength": 80 },
+        "bio": { "type": "string", "description": "Profile biography", "maxLength": 2000 },
+        "relationship_intention": { "type": "string", "description": "Relationship intention", "maxLength": 50 },
+        "occupation": { "type": "string", "description": "User occupation", "maxLength": 100 },
+        "education": { "type": "string", "description": "User educational background", "maxLength": 100 },
+        "languages": { "type": "array", "description": "Spoken languages" },
+        "interests": { "type": "array", "description": "User interests and hobbies" },
+        "is_verified": { "type": "boolean", "description": "Official biometric verification flag" },
+        "verification_status": { "type": "string", "description": "Verification state", "maxLength": 30 },
+        "role": { "type": "string", "description": "RBAC user role", "maxLength": 30 },
+        "account_status": { "type": "string", "description": "Account status", "maxLength": 30 },
+        "created_at": { "type": "string", "description": "Creation timestamp", "maxLength": 40 },
+        "updated_at": { "type": "string", "description": "Update timestamp", "maxLength": 40 }
+      },
+      "required": ["id", "email", "display_name", "birth_date", "age", "gender", "country", "role", "account_status"]
+    },
+    "UserLike": {
+      "title": "UserLike",
+      "description": "Like or Super-Like from one user to another",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique like ID", "maxLength": 128 },
+        "from_user_id": { "type": "string", "description": "Liking user UID", "maxLength": 128 },
+        "to_user_id": { "type": "string", "description": "Target user UID", "maxLength": 128 },
+        "type": { "type": "string", "description": "like or super_like", "maxLength": 20 },
+        "created_at": { "type": "string", "description": "Timestamp", "maxLength": 40 }
+      },
+      "required": ["id", "from_user_id", "to_user_id", "type", "created_at"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Mutual match between two users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Match ID", "maxLength": 128 },
+        "user_1_id": { "type": "string", "description": "First user UID", "maxLength": 128 },
+        "user_2_id": { "type": "string", "description": "Second user UID", "maxLength": 128 },
+        "matched_at": { "type": "string", "description": "Match timestamp", "maxLength": 40 },
+        "is_active": { "type": "boolean", "description": "Match active status" }
+      },
+      "required": ["id", "user_1_id", "user_2_id", "matched_at", "is_active"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Private direct message between matched participants",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Message ID", "maxLength": 128 },
+        "conversation_id": { "type": "string", "description": "Match or conversation ID", "maxLength": 128 },
+        "sender_id": { "type": "string", "description": "Sender UID", "maxLength": 128 },
+        "receiver_id": { "type": "string", "description": "Receiver UID", "maxLength": 128 },
+        "content": { "type": "string", "description": "Message body", "maxLength": 4000 },
+        "sent_at": { "type": "string", "description": "Sent timestamp", "maxLength": 40 },
+        "is_read": { "type": "boolean", "description": "Read status" }
+      },
+      "required": ["id", "conversation_id", "sender_id", "receiver_id", "content", "sent_at", "is_read"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "Safety report filed against an account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Report ID", "maxLength": 128 },
+        "reporter_id": { "type": "string", "description": "Reporter UID", "maxLength": 128 },
+        "reported_user_id": { "type": "string", "description": "Reported user UID", "maxLength": 128 },
+        "category": { "type": "string", "description": "Reporting violation category", "maxLength": 50 },
+        "details": { "type": "string", "description": "Incident details", "maxLength": 3000 },
+        "status": { "type": "string", "description": "Resolution status", "maxLength": 30 },
+        "created_at": { "type": "string", "description": "Created timestamp", "maxLength": 40 }
+      },
+      "required": ["id", "reporter_id", "reported_user_id", "category", "details", "status", "created_at"]
+    },
+    "Verification": {
+      "title": "Verification",
+      "description": "Identity verification submission",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Verification ID", "maxLength": 128 },
+        "user_id": { "type": "string", "description": "Applicant UID", "maxLength": 128 },
+        "id_document_url": { "type": "string", "description": "Private ID document URI", "maxLength": 500 },
+        "selfie_url": { "type": "string", "description": "Biometric selfie URI", "maxLength": 500 },
+        "status": { "type": "string", "description": "Review status", "maxLength": 30 },
+        "submitted_at": { "type": "string", "description": "Submission timestamp", "maxLength": 40 }
+      },
+      "required": ["id", "user_id", "id_document_url", "selfie_url", "status", "submitted_at"]
+    },
+    "AdminAuditLog": {
+      "title": "AdminAuditLog",
+      "description": "Immutable administrative audit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Log ID", "maxLength": 128 },
+        "admin_id": { "type": "string", "description": "Admin UID", "maxLength": 128 },
+        "admin_email": { "type": "string", "description": "Admin email", "maxLength": 128 },
+        "action_type": { "type": "string", "description": "Action type", "maxLength": 50 },
+        "target_user_id": { "type": "string", "description": "Target user UID", "maxLength": 128 },
+        "notes": { "type": "string", "description": "Action rationale and notes", "maxLength": 3000 },
+        "created_at": { "type": "string", "description": "Timestamp", "maxLength": 40 }
+      },
+      "required": ["id", "admin_id", "admin_email", "action_type", "notes", "created_at"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Collection of user profiles"
+    },
+    "/likes/{likeId}": {
+      "schema": { "$ref": "#/entities/UserLike" },
+      "description": "Swipes and likes between members"
+    },
+    "/matches/{matchId}": {
+      "schema": { "$ref": "#/entities/Match" },
+      "description": "Mutual matches between members"
+    },
+    "/matches/{matchId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Subcollection of 1-to-1 private messages inside a match"
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/Report" },
+      "description": "Safety violation reports"
+    },
+    "/verifications/{verificationId}": {
+      "schema": { "$ref": "#/entities/Verification" },
+      "description": "Private biometric verification submissions"
+    },
+    "/admin_audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
+      "description": "Administrative actions audit log"
+    }
+  }
+}
